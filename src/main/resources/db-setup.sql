@@ -24,3 +24,7 @@ create table moons(
 INSERT INTO users VALUES(1,'enzo','fernandes');
 
 DELETE  FROM users WHERE id= 3;
+INSERT INTO planets VALUES (1,'Neptune',1);
+INSERT INTO planets VALUES (2,'Venus',1);
+INSERT INTO planets VALUES (3,'Mars',1);
+

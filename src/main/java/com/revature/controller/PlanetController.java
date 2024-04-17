@@ -4,6 +4,8 @@ import com.revature.exceptions.PlanetFailException;
 import com.revature.models.Planet;
 import com.revature.service.PlanetService;
 
+import java.util.List;
+
 public class PlanetController {
 	
 	private PlanetService planetService;
@@ -14,7 +16,18 @@ public class PlanetController {
 
 	public void getAllPlanets(int currentUserId) {
 		// TODO: implement
-		planetService.getAllPlanets(currentUserId);
+		try {
+			List<Planet> allPlanets = planetService.getAllPlanets(currentUserId);
+			if(allPlanets.size() > 0) {
+				System.out.println("\nYour Planets\n-----------------");
+				allPlanets.forEach(System.out::println);
+			}
+			else{
+				throw new PlanetFailException("\nYou have no planets in your Planetarium");
+			}
+		}catch (PlanetFailException e){
+			System.out.println(e.getMessage());
+		}
 
 	}
 
@@ -22,8 +35,22 @@ public class PlanetController {
 		// TODO: implement
 	}
 
-	public void getPlanetByID(int currentUserId, int id) {
+	public Planet getPlanetByID(int currentUserId, int id) {
 		// TODO: implement
+		try {
+			Planet checkPlanet = planetService.getPlanetById(currentUserId, id);
+			if(checkPlanet != null){
+				//if planet exists
+				return checkPlanet;
+			}
+			else{
+				throw new PlanetFailException("Error! Please double check planet id");
+			}
+		}
+		catch (PlanetFailException e){
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 
 	public void createPlanet(int currentUserId, Planet planet) {

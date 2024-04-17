@@ -4,13 +4,19 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import com.revature.controller.MoonController;
 import com.revature.controller.PlanetController;
 import com.revature.controller.UserController;
+import com.revature.exceptions.MoonFailException;
+import com.revature.exceptions.PlanetFailException;
+import com.revature.models.Moon;
 import com.revature.models.Planet;
 import com.revature.models.User;
 import com.revature.models.UsernamePasswordAuthentication;
+import com.revature.repository.MoonDao;
 import com.revature.repository.PlanetDao;
 import com.revature.repository.UserDao;
+import com.revature.service.MoonService;
 import com.revature.service.PlanetService;
 import com.revature.service.UserService;
 import com.revature.utilities.ConnectionUtil;
@@ -24,6 +30,11 @@ public class MainDriver {
     public static PlanetDao planetDao= new PlanetDao();
     public static PlanetService planetService= new PlanetService(planetDao);
     public static PlanetController planetController= new PlanetController(planetService);
+
+    public static MoonDao moonDao= new MoonDao();
+    public static MoonService moonService= new MoonService(moonDao);
+    public static MoonController moonController= new MoonController(moonService);
+
     public static int loggedInUserId=0;
     public static String loggedInUserName="";
 
@@ -104,12 +115,16 @@ public class MainDriver {
                 System.out.println("3. Add a Planet");
                 System.out.println("4. Add a Moon");
                 System.out.println("5. Remove a Planet");
-                System.out.println("6. Exit");
+                System.out.println("6. Remove a Moon");
+                System.out.println("7. Exit");
                 System.out.print("Your choice:");
 
                 String choice= scan.nextLine();
                 if(choice.equals("1")){
                     planetController.getAllPlanets(loggedInUserId);
+                }
+                else if (choice.equals("2")){
+                    moonController.getAllMoons(loggedInUserId);
                 }
                 else if(choice.equals("3")){
                     Planet tmp=new Planet();
@@ -117,12 +132,42 @@ public class MainDriver {
                     tmp.setName(scan.nextLine());
                     planetController.createPlanet(loggedInUserId, tmp);
                 }
+                else if(choice.equals("4")){
+                    try {
+                        System.out.print("Enter moon's planet id: ");
+                        String planetId= scan.nextLine();
+                        Planet checkPlanet=planetController.getPlanetByID(loggedInUserId, Integer.parseInt(planetId));
+                        while(checkPlanet == null){
+                            System.out.print("Re-enter moon's planet id: ");
+                            planetId=scan.nextLine();
+                            checkPlanet=planetController.getPlanetByID(loggedInUserId,Integer.parseInt(planetId));
+                        }
+
+                        System.out.print("Enter new moon's name: ");
+                        Moon newMoon= new Moon();
+                        newMoon.setName(scan.nextLine());
+                        newMoon.setMyPlanetId(Integer.parseInt(planetId));
+
+                        moonController.createMoon(loggedInUserId,newMoon);
+                    }catch(PlanetFailException e){
+
+                    }catch(MoonFailException e){
+
+                    }
+
+                }
                 else if(choice.equals("5")){
-                    System.out.print("Enter id of planet to delete:");
+                    System.out.print("Enter id of planet to delete: ");
                     int planetId=Integer.parseInt(scan.nextLine());
                     planetController.deletePlanet(loggedInUserId,planetId);
                 }
                 else if (choice.equals("6")) {
+                    System.out.print("Enter id of moon to delete: ");
+                    int moonId= Integer.parseInt(scan.nextLine());
+
+                    moonController.deleteMoon(moonId);
+                }
+                else if(choice.equals("7")){
                     System.exit(0);
                 }
 

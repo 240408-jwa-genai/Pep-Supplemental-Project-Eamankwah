@@ -17,16 +17,20 @@ public class PlanetService {
 
 	public List<Planet> getAllPlanets(int ownerId) {
 		// TODO Auto-generated method stub
-		List<Planet> allPlanets=dao.getAllPlanets(ownerId);
+		try{
+			List<Planet> allPlanets=dao.getAllPlanets(ownerId);
 
-		if(allPlanets.size() == 0){
-			System.out.println("You have no planets in your Planetarium");
+			if(allPlanets != null){
+				return allPlanets;
+			}
+			else{
+				throw new PlanetFailException("There was an error retrieving you planets");
+			}
 		}
-		else{
-			System.out.println("\nYour Planets\n-----------------");
-			allPlanets.forEach(System.out::println);
+		catch(PlanetFailException e){
+			System.out.println(e.getMessage());
+			return null;
 		}
-		return null;
 	}
 
 	public Planet getPlanetByName(int ownerId, String planetName) {
@@ -36,7 +40,20 @@ public class PlanetService {
 
 	public Planet getPlanetById(int ownerId, int planetId) {
 		// TODO Auto-generated method stub
-		return null;
+		try{
+			Planet checkPlanet= dao.getPlanetById(planetId);
+			if(planetId == checkPlanet.getId()){
+				return checkPlanet;
+			}
+			else{
+				throw new PlanetFailException("Planet doesn't exist");
+			}
+		}
+		catch(PlanetFailException e){
+			System.out.println(e.getMessage());
+			return null;
+		}
+
 	}
 
 	public Planet createPlanet(int ownerId, Planet planet) {

@@ -61,7 +61,25 @@ public class PlanetDao {
 
 	public Planet getPlanetById(int planetId) {
 		// TODO: implement
-		return null;
+		try(Connection conn= ConnectionUtil.createConnection()) {
+			String sql= "SELECT * FROM planets WHERE id = ?";
+
+			PreparedStatement preparedStatement= conn.prepareStatement(sql);
+			preparedStatement.setInt(1,planetId);
+
+			Planet returnedPlanet= new Planet();
+			ResultSet resultSet=preparedStatement.executeQuery();
+
+			if(resultSet.next()){
+				returnedPlanet.setId(resultSet.getInt(1));
+				returnedPlanet.setName(resultSet.getString(2));
+				returnedPlanet.setOwnerId(resultSet.getInt(3));
+			}
+			return returnedPlanet;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public Planet createPlanet(Planet p) {
