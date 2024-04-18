@@ -5,6 +5,7 @@ import com.revature.exceptions.UserFailException;
 import com.revature.models.User;
 import com.revature.models.UsernamePasswordAuthentication;
 import com.revature.service.UserService;
+import com.sun.tools.javac.Main;
 
 
 public class UserController {
@@ -49,7 +50,7 @@ public class UserController {
 	}
 
 	public void logout() {
-		// TODO: implement
+		MainDriver.loggedInUserId=0;
 	}
 	
 	public boolean checkAuthorization(int userId) {	

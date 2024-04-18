@@ -12,19 +12,12 @@ create table users(
 create table planets(
 	id integer primary key,
 	name text,
-	ownerId integer references users(id)
+	ownerId integer references users(id) ON DELETE CASCADE
 );
 
 create table moons(
 	id integer primary key,
 	name text,
-	myPlanetId Integer references planets(id)
+	myPlanetId Integer references planets(id) ON DELETE CASCADE
 );
-
-INSERT INTO users VALUES(1,'enzo','fernandes');
-
-DELETE  FROM users WHERE id= 3;
-INSERT INTO planets VALUES (1,'Neptune',1);
-INSERT INTO planets VALUES (2,'Venus',1);
-INSERT INTO planets VALUES (3,'Mars',1);
 

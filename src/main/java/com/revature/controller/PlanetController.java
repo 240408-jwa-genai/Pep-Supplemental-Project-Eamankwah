@@ -32,7 +32,17 @@ public class PlanetController {
 	}
 
 	public void getPlanetByName(int currentUserId, String name) {
-		// TODO: implement
+		try {
+			Planet planet = planetService.getPlanetByName(currentUserId, name);
+			if(planet == null){
+				throw new PlanetFailException("Double check planet name and try again");
+			}
+			else System.out.println(planet);
+		}
+		catch (PlanetFailException e){
+			System.out.println(e.getMessage());
+		}
+
 	}
 
 	public Planet getPlanetByID(int currentUserId, int id) {

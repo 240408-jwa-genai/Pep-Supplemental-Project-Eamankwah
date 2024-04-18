@@ -2,6 +2,7 @@ package com.revature.controller;
 
 import com.revature.exceptions.MoonFailException;
 import com.revature.models.Moon;
+import com.revature.models.Planet;
 import com.revature.service.MoonService;
 
 import java.util.List;
@@ -31,11 +32,33 @@ public class MoonController {
 	}
 
 	public void getMoonByName(int currentUserId, String name) {
-		// TODO: implement
+		try {
+			Moon moon= moonService.getMoonByName(currentUserId,name);
+
+			if(moon== null){
+				throw new MoonFailException("Please double check moon's name and try again");
+			}
+			else{
+				System.out.println(moon);
+			}
+		}
+		catch (MoonFailException e){
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void getMoonById(int currentUserId, int id) {
-		// TODO: implement
+		try{
+			Moon moon= moonService.getMoonById(currentUserId,id);
+			if(moon == null){
+				throw new MoonFailException("Please double check moon's id and try again");
+			}
+			else{
+				System.out.println(moon);
+			}
+		}catch (MoonFailException e){
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void createMoon(int currentUserId, Moon moon) {
@@ -45,7 +68,7 @@ public class MoonController {
 				System.out.printf("\n%s was successfully created!",createdMoon.getName());
 			}
 			else{
-				throw new MoonFailException("Error occured, try again.");
+				throw new MoonFailException("Error occurred, try again.");
 			}
 		}
 		catch (MoonFailException e){
@@ -71,6 +94,17 @@ public class MoonController {
 	}
 	
 	public void getPlanetMoons(int myPlanetId) {
-		// TODO: implement
+		try{
+			List<Moon> moons= moonService.getMoonsFromPlanet(myPlanetId);
+			if(moons == null){
+				throw new MoonFailException("Please double check planet id");
+			}
+			else{
+				moons.forEach(System.out::println);
+			}
+		}
+		catch (MoonFailException e){
+			System.out.println(e.getMessage());
+		}
 	}
 }

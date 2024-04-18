@@ -90,13 +90,15 @@ public class MainDriver {
 
                 } else if (unknownUserChoice.equals("3")) {
                     System.exit(0);
-                } else {
-                    System.out.println("\nPlease choose from the provided options");
-                    System.out.println("1. Create an Account");
-                    System.out.println("2. Login to Planetarium");
-                    System.out.print("Your choice:");
-                    unknownUserChoice=scan.nextLine();
                 }
+//                else {
+//                    //scan.nextLine();
+//                    System.out.println("\nPlease choose from the provided options");
+//                    System.out.println("1. Create an Account");
+//                    System.out.println("2. Login to Planetarium");
+//                    System.out.print("Your choice:");
+//                    unknownUserChoice=scan.nextLine();
+//                }
 
             }//while !userIsLoggedIn
 
@@ -116,7 +118,7 @@ public class MainDriver {
                 System.out.println("4. Add a Moon");
                 System.out.println("5. Remove a Planet");
                 System.out.println("6. Remove a Moon");
-                System.out.println("7. Exit");
+                System.out.println("7. Logout");
                 System.out.print("Your choice:");
 
                 String choice= scan.nextLine();
@@ -160,6 +162,7 @@ public class MainDriver {
                     System.out.print("Enter id of planet to delete: ");
                     int planetId=Integer.parseInt(scan.nextLine());
                     planetController.deletePlanet(loggedInUserId,planetId);
+                    System.out.println("\nMoons associated with planet has also been deleted");
                 }
                 else if (choice.equals("6")) {
                     System.out.print("Enter id of moon to delete: ");
@@ -168,7 +171,7 @@ public class MainDriver {
                     moonController.deleteMoon(moonId);
                 }
                 else if(choice.equals("7")){
-                    System.exit(0);
+                    userController.logout();
                 }
 
             }

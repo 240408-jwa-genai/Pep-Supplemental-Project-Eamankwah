@@ -11,6 +11,7 @@ import java.util.List;
 import com.revature.exceptions.MoonFailException;
 import com.revature.models.Moon;
 import com.revature.utilities.ConnectionUtil;
+import com.sun.source.tree.WhileLoopTree;
 
 public class MoonDao {
     
@@ -69,8 +70,26 @@ public class MoonDao {
 	}
 
 	public Moon getMoonById(int moonId) {
-		// TODO: implement
-		return null;
+		try(Connection conn=ConnectionUtil.createConnection()){
+			String sql= "Select * FROM moons WHERE id = ?";
+
+			PreparedStatement preparedStatement= conn.prepareStatement(sql);
+			preparedStatement.setInt(1,moonId);
+
+			Moon moon = new Moon();
+
+			ResultSet resultSet= preparedStatement.executeQuery();
+			if(resultSet.next()){
+				moon.setId(resultSet.getInt(1));
+				moon.setName(resultSet.getString(2));
+				moon.setMyPlanetId(resultSet.getInt(3));
+			}
+
+			return moon;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public Moon createMoon(Moon m) {
@@ -118,7 +137,30 @@ public class MoonDao {
 	}
 
 	public List<Moon> getMoonsFromPlanet(int planetId) {
-		// TODO: implement
-		return null;
+		try(Connection conn= ConnectionUtil.createConnection()){
+			String sql= "SELECT m.id,m.name ,m.myPlanetId  FROM moons m \n" +
+					"join planets p on m.myPlanetId = p.id \n" +
+					"WHERE m.myPlanetId = ?";
+
+			PreparedStatement preparedStatement= conn.prepareStatement(sql);
+			preparedStatement.setInt(1, planetId);
+
+			List<Moon> allMoons= new ArrayList<>();
+			ResultSet resultSet=preparedStatement.executeQuery();
+
+			while(resultSet.next()){
+				Moon moon= new Moon();
+				moon.setId(resultSet.getInt(1));
+				moon.setName(resultSet.getString(2));
+				moon.setMyPlanetId(resultSet.getInt(3));
+
+				allMoons.add(moon);
+			}
+
+			return allMoons;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

@@ -34,8 +34,23 @@ public class PlanetService {
 	}
 
 	public Planet getPlanetByName(int ownerId, String planetName) {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			Planet planet= dao.getPlanetByName(planetName);
+
+			if(planet == null){
+				throw new PlanetFailException("Error occurred retrieving planet");
+			}
+			else if(ownerId != planet.getOwnerId()){
+				throw new PlanetFailException("Planet doesn't exist");
+			}
+			else {
+				return planet;
+			}
+		}
+		catch(PlanetFailException e){
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 
 	public Planet getPlanetById(int ownerId, int planetId) {

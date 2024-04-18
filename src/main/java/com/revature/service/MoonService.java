@@ -47,8 +47,23 @@ public class MoonService {
 	}
 
 	public Moon getMoonById(int myPlanetId, int moonId) {
-		// TODO Aimplement
-		return null;
+		try{
+			Moon moon= dao.getMoonById(moonId);
+
+			if(moon == null){
+				throw new MoonFailException("Error occured retrieving moon");
+			}
+			else if(myPlanetId != moon.getMyPlanetId()){
+				throw new MoonFailException("Moon not found or doesn't exist");
+			}
+			else {
+				return moon;
+			}
+		}
+		catch (MoonFailException e){
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 
 	public Moon createMoon(Moon m) {
@@ -78,7 +93,21 @@ public class MoonService {
 	}
 
 	public List<Moon> getMoonsFromPlanet(int myPlanetId) {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			List<Moon> moons= dao.getMoonsFromPlanet(myPlanetId);
+
+			if(moons == null){
+				throw new MoonFailException("Error Occured retrieving moons");
+			}
+			else if(moons.size() == 0){
+				throw new MoonFailException("Planet has no moons associated with it");
+			}
+			else{
+				return moons;
+			}
+		}catch(MoonFailException e){
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 }

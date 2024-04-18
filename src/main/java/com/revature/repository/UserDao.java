@@ -7,20 +7,20 @@ import com.revature.utilities.ConnectionUtil;
 import java.sql.*;
 
 public class UserDao {
-    
-    public User getUserByUsername(String username){
+
+    public User getUserByUsername(String username) {
         // TODO: implement
-        String sql="SELECT * FROM users WHERE username = ?";
-        User retrievedUser= new User();
+        String sql = "SELECT * FROM users WHERE username = ?";
+        User retrievedUser = new User();
 
 
-        try(Connection conn= ConnectionUtil.createConnection()){
-            PreparedStatement preparedStatement= conn.prepareStatement(sql);
-            preparedStatement.setString(1,username);
+        try (Connection conn = ConnectionUtil.createConnection()) {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, username);
 
-            ResultSet resultSet= preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 retrievedUser.setId(resultSet.getInt(1));
                 retrievedUser.setUsername(resultSet.getString(2));
                 retrievedUser.setPassword(resultSet.getString(3));
@@ -38,7 +38,7 @@ public class UserDao {
 
     public User createUser(UsernamePasswordAuthentication registerRequest) {
         // TODO: implement
-        try (Connection connection = ConnectionUtil.createConnection()){
+        try (Connection connection = ConnectionUtil.createConnection()) {
             // craft initial sql
             String sql = "INSERT INTO users (username, password) VALUES (?,?)";
             // create preppared statement
@@ -56,21 +56,15 @@ public class UserDao {
             User newUser = new User();
             newUser.setUsername(registerRequest.getUsername());
             newUser.setPassword(registerRequest.getPassword());
-            if(rs.next()){
+            if (rs.next()) {
                 // since we are only returning the generated id, we can get it by referencing column 1
                 newUser.setId(rs.getInt(1));
             }
             return newUser;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static void main(String[] args) {
-        UserDao dao= new UserDao();
-        User getUser= dao.getUserByUsername("enzo");
-
-        System.out.println(getUser);
-    }
 }
