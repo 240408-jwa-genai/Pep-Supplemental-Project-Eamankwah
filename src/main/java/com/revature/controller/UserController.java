@@ -23,9 +23,9 @@ public class UserController {
 			if (possibleUser.getId() != 0){
 				MainDriver.loggedInUserId = possibleUser.getId();
 				MainDriver.loggedInUserName= possibleUser.getUsername();
-				System.out.println(String.format("Hello %s! Welcome to the Planetarium", possibleUser.getUsername()));
+				System.out.println(String.format("\nHello %s! Welcome to the Planetarium", possibleUser.getUsername()));
 			} else {
-				throw new UserFailException("Username/Password combo invalid, please try again");
+				throw new UserFailException("Username/Password combo invalid, please try again\n");
 			}
 
 		}catch (UserFailException e){
@@ -51,6 +51,7 @@ public class UserController {
 
 	public void logout() {
 		MainDriver.loggedInUserId=0;
+		System.out.println("User has been logged out");
 	}
 	
 	public boolean checkAuthorization(int userId) {	

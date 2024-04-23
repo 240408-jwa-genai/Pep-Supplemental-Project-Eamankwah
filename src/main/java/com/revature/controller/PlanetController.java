@@ -71,7 +71,7 @@ public class PlanetController {
 				System.out.printf("\n%s was successfully created", planet1.getName());
 			}
 			else {
-				throw  new PlanetFailException("\nThere's was an error adding your planet. Please try again");
+				throw  new PlanetFailException("There's was an error adding your planet. Please try again\n");
 			}
 		}catch (PlanetFailException e){
 			System.out.println(e.getMessage());
@@ -86,7 +86,7 @@ public class PlanetController {
 				System.out.printf("\nPlanet with id of %d was successfully deleted",id);
 			}
 			else{
-				throw new PlanetFailException("Planet removal unsuccessful, double check id");
+				throw new PlanetFailException("Planet removal unsuccessful, double check id\n");
 			}
 		}catch (PlanetFailException e){
 			System.out.println(e.getMessage());

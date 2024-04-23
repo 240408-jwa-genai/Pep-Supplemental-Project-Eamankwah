@@ -25,7 +25,7 @@ public class UserService {
 					return possibleUser;
 				}
 				else{
-					throw new UserFailException("Login failed, verify credentials");
+					throw new UserFailException("\nLogin failed, verify credentials");
 				}
 			}
 		}catch (UserFailException e){

@@ -24,7 +24,7 @@ public class MoonController {
 				allMoons.forEach(System.out::println);
 			}
 			else{
-				throw new MoonFailException("You have no Moons in your Planetarium");
+				throw new MoonFailException("\nYou have no Moons in your Planetarium");
 			}
 		}catch (MoonFailException e){
 			System.out.println(e.getMessage());
@@ -36,7 +36,7 @@ public class MoonController {
 			Moon moon= moonService.getMoonByName(currentUserId,name);
 
 			if(moon== null){
-				throw new MoonFailException("Please double check moon's name and try again");
+				throw new MoonFailException("\nPlease double check moon's name and try again");
 			}
 			else{
 				System.out.println(moon);
@@ -51,7 +51,7 @@ public class MoonController {
 		try{
 			Moon moon= moonService.getMoonById(currentUserId,id);
 			if(moon == null){
-				throw new MoonFailException("Please double check moon's id and try again");
+				throw new MoonFailException("\nPlease double check moon's id and try again");
 			}
 			else{
 				System.out.println(moon);
@@ -68,7 +68,7 @@ public class MoonController {
 				System.out.printf("\n%s was successfully created!",createdMoon.getName());
 			}
 			else{
-				throw new MoonFailException("Error occurred, try again.");
+				throw new MoonFailException("Error occurred, try again.\n");
 			}
 		}
 		catch (MoonFailException e){
@@ -81,10 +81,10 @@ public class MoonController {
 		try {
 			boolean moonDeleted = moonService.deleteMoonById(id);
 			if(moonDeleted){
-				System.out.printf("Moon with id of %d, was removed successfully",id);
+				System.out.printf("\nMoon with id of %d, was removed successfully",id);
 			}
 			else{
-				throw new MoonFailException("Moon was not removed successfully, check id");
+				throw new MoonFailException("\nMoon was not removed successfully, check id");
 			}
 		}
 		catch (MoonFailException e){
@@ -97,7 +97,7 @@ public class MoonController {
 		try{
 			List<Moon> moons= moonService.getMoonsFromPlanet(myPlanetId);
 			if(moons == null){
-				throw new MoonFailException("Please double check planet id");
+				throw new MoonFailException("\nPlease double check planet id");
 			}
 			else{
 				moons.forEach(System.out::println);

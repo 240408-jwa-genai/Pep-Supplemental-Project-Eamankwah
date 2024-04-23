@@ -37,7 +37,7 @@ public class MoonService {
 				return moon;
 			}
 			else{
-				throw new MoonFailException("Moon doesn't exist");
+				throw new MoonFailException("\nMoon doesn't exist");
 			}
 
 		}catch(MoonFailException e){
@@ -51,10 +51,10 @@ public class MoonService {
 			Moon moon= dao.getMoonById(moonId);
 
 			if(moon == null){
-				throw new MoonFailException("Error occured retrieving moon");
+				throw new MoonFailException("\nError occurred retrieving moon");
 			}
 			else if(myPlanetId != moon.getMyPlanetId()){
-				throw new MoonFailException("Moon not found or doesn't exist");
+				throw new MoonFailException("\nMoon not found or doesn't exist");
 			}
 			else {
 				return moon;
@@ -76,11 +76,11 @@ public class MoonService {
 					return createdMoon;
 				}
 				else{
-					throw new MoonFailException("A moon with this name exists");
+					throw new MoonFailException("\nA moon with this name exists");
 				}
 			}
 			else{
-				throw new MoonFailException("Your moon's name exceeds 30 characters");
+				throw new MoonFailException("\nYour moon's name exceeds 30 characters");
 			}
 		}catch (MoonFailException e){
 			System.out.println(e.getMessage());
@@ -97,10 +97,10 @@ public class MoonService {
 			List<Moon> moons= dao.getMoonsFromPlanet(myPlanetId);
 
 			if(moons == null){
-				throw new MoonFailException("Error Occured retrieving moons");
+				throw new MoonFailException("\nError Occured retrieving moons");
 			}
 			else if(moons.size() == 0){
-				throw new MoonFailException("Planet has no moons associated with it");
+				throw new MoonFailException("\nPlanet has no moons associated with it");
 			}
 			else{
 				return moons;
